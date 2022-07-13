@@ -4,11 +4,12 @@ import Announcement from "../components/Announcement";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import { mobile } from "../responsive";
-import {useLocation} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import { useEffect, useState } from "react";
 import { publicRequest } from "../requestMethods";
 import { addProduct } from "../redux/cartRedux";
 import {useDispatch} from "react-redux";
+import { useSelector } from "react-redux";
 
 const Container = styled.div``;
 
@@ -120,6 +121,7 @@ const Button = styled.button`
 `;
 
 const Product = () => {
+  const {currentUser } = useSelector((state) => state.user);
   const location=useLocation();
   const id=location.pathname.split("/")[2];
   const [product,setProduct]=useState({});
@@ -127,6 +129,7 @@ const Product = () => {
   const [color,setColor]=useState("");
   const [size,setSize]=useState("");
   const dispatch=useDispatch();
+  const navigate=useNavigate();
 
   useEffect(() => {
     const getProduct = async () => {
@@ -150,10 +153,15 @@ const Product = () => {
     dispatch(addProduct({...product,quantity,color,size}));
   }
 
+  if (currentUser) {
+    navigate('/cart');
+    return null;
+  }else{
+    navigate('/login')
+  }
   return (
     <Container>
       <Navbar />
-      <Announcement />
       <Wrapper>
         <ImgContainer>
           <Image src={product.img}/>
@@ -184,11 +192,11 @@ const Product = () => {
               <Amount>{quantity}</Amount>
               <Add onClick={()=>handleQuantity("inc")} />
             </AmountContainer>
-            <Button onClick={handleClick}>ADD TO CART</Button>
+            <Button onClick={handleClick} >ADD TO CART</Button>
+            
           </AddContainer>
         </InfoContainer>
       </Wrapper>
-      <Footer />
     </Container>
   );
 };

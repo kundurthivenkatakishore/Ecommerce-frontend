@@ -1,24 +1,24 @@
 export const sliderItems = [
     {
       id: 1,
-      img: "https://images.unsplash.com/photo-1619533394727-57d522857f89?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80",
-      title: "MEN SUITS",
-      desc: "DON'T COMPROMISE ON STYLE! GET FLAT 30% OFF FOR NEW ARRIVALS.",
-      bg: "f5fafd",
+      img: "https://easetemplate.com/free-website-templates/todayfashion/images/slider-1.jpg",
+      title: "75% OFF!",
+      desc: "LOOK OUR NEW COLLECTIONS",
+      tag: "The best of global brands, at your doorstep!",
     },
     {
       id: 2,
-      img: "https://cdn.shopify.com/s/files/1/0476/8268/3045/products/03---2_1800x1800.jpg?v=1632666094",
-      title: "AUTUMN COLLECTION",
-      desc: "DON'T COMPROMISE ON STYLE! GET FLAT 30% OFF FOR NEW ARRIVALS.",
-      bg: "fcf1ed",
+      img: "https://easetemplate.com/free-website-templates/todayfashion/images/slider-3.jpg",
+      title: "EXTRA 20% OFF!",
+      desc: "ON BEST SELLER PRODUCTS",
+      tag: "The best of global brands, at your doorstep!",
     },
     {
       id: 3,
-      img: "https://assets.myntassets.com/h_1440,q_90,w_1080/v1/assets/images/productimage/2021/6/1/d4f9926d-81de-4414-b04b-88265d74f9351622541718254-1.jpg",
-      title: "LOUNGEWEAR LOVE",
-      desc: "DON'T COMPROMISE ON STYLE! GET FLAT 30% OFF FOR NEW ARRIVALS.",
-      bg: "fbf0f4",
+      img: "https://easetemplate.com/free-website-templates/todayfashion/images/slider-2.jpg",
+      title: "UPTO 50% OFF!",
+      desc: "JEANS,DRESS,TOPS AND MORE",
+      tag: "The best of global brands, at your doorstep!",
     },
   ];
 

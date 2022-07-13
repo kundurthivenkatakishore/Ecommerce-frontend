@@ -1,8 +1,11 @@
-import { useState } from "react";
+import { useState,useCallback } from "react";
 import styled from "styled-components";
 import {mobile} from "../responsive";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../redux/apiCalls";
+import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+
 
 const Container = styled.div`
   width: 100vw;
@@ -11,7 +14,7 @@ const Container = styled.div`
       rgba(255, 255, 255, 0.5),
       rgba(255, 255, 255, 0.5)
     ),
-    url("https://images.pexels.com/photos/6984650/pexels-photo-6984650.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940")
+    url("https://www.liveabout.com/thmb/FkQ7RaPHL1yI0uCqkgDR9IWHoBc=/1887x1415/smart/filters:no_upscale()/GettyImages-487149250-58c71e5b3df78c353c0577eb.jpg")
       center;
   background-size: cover;
   display: flex;
@@ -29,6 +32,7 @@ const Wrapper = styled.div`
 const Title = styled.h1`
   font-size: 24px;
   font-weight: 300;
+  text-align:center;
 `;
 
 const Form = styled.form`
@@ -47,7 +51,7 @@ const Button = styled.button`
   width: 40%;
   border: none;
   padding: 15px 20px;
-  background-color: teal;
+  background-color: #6495ED;
   color: white;
   cursor: pointer;
   margin-bottom: 10px;
@@ -57,39 +61,68 @@ const Button = styled.button`
   }
 `;
 
-const Link = styled.a`
-  margin: 5px 0px;
-  font-size: 12px;
-  text-decoration: underline;
-  cursor: pointer;
-`;
+// const Link = styled.a`
+//   margin: 5px 0px;
+//   font-size: 12px;
+//   text-decoration: underline;
+//   cursor: pointer;
+// `;
 
 const Error=styled.span`
   color:red;    
 `
+const SUggestion=styled.span`
+  color:blue;
+`
 
 const Login = () => {
-  const[username,setUsername]=useState("");
-  const[password,setPassword]=useState("");
-  const dispatch=useDispatch();
-  const {isFetching,error}=useSelector((state)=>state.user)
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
 
-  const handleClick=(e)=>{
-    e.preventDefault();
-    login(dispatch,{username,password})
+  const dispatch = useDispatch();
+  const { isFetching, error, currentUser } = useSelector((state) => state.user);
+  const navigate = useNavigate();
+
+  const handleLogin = useCallback(
+    (e) => {
+      e.preventDefault();
+      login(dispatch, { username, password });
+    },
+    [username, password]
+    
+  );
+
+  if (currentUser) {
+    navigate('/');
+    return null;
   }
+
+
 
   return (
     <Container>
       <Wrapper>
         <Title>SIGN IN</Title>
         <Form>
-          <Input placeholder="username" onChange={(e)=>setUsername(e.target.value)}/>
-          <Input placeholder="password" type="password" onChange={(e)=>setPassword(e.target.value)}/>
-          <Button onClick={handleClick} disabled={isFetching}>LOGIN</Button>
+          <Input
+            type="text"
+            placeholder="username"
+            onChange={(e) => setUsername(e.target.value)}
+            value={username}
+          />
+          <Input
+            type="password"
+            placeholder="password"
+            onChange={(e) => setPassword(e.target.value)}
+            value={password}
+          />
+          <Button
+            onClick={handleLogin}
+            disabled={isFetching}
+          >LOGIN</Button>
           {error && <Error>Something went wrong..</Error>}
-          <Link>DO NOT YOU REMEMBER THE PASSWORD?</Link>
-          <Link>CREATE A NEW ACCOUNT</Link>
+          <SUggestion>Doesn't have account</SUggestion> 
+          <Link to="/register">Register</Link>
         </Form>
       </Wrapper>
     </Container>

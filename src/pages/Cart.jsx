@@ -136,7 +136,7 @@ const Summary = styled.div`
   border: 0.5px solid lightgray;
   border-radius: 10px;
   padding: 20px;
-  height: 50vh;
+  height: 100vh;
 `;
 
 const SummaryTitle = styled.h1`
@@ -165,6 +165,7 @@ const Button = styled.button`
 
 const Cart = () => {
   const cart = useSelector((state) => state.cart);
+  const {currentUser } = useSelector((state) => state.user);
   const [stripeToken, setStripeToken] = useState(null);
   const navigate = useNavigate();
   const dispatch=useDispatch();
@@ -204,6 +205,13 @@ const Cart = () => {
       }
     };
 
+    if (currentUser) {
+      navigate('/cart');
+      return null;
+    }else{
+      navigate('/login')
+    }
+
     stripeToken && cart.total >= 1 && makeRequest();
   }, [stripeToken, cart]);
   return (
@@ -220,7 +228,7 @@ const Cart = () => {
           </TopTexts>
           <button
             onClick={() => dispatch(emptyCart())}
-            className="p-[10px] font-semibold cursor-pointer bg-black text-white text-xs "
+            className="p-[10px] bg-white"
           >
             EMPTY CART
           </button>
@@ -281,8 +289,8 @@ const Cart = () => {
               <SummaryItemPrice>$ {cart.total}</SummaryItemPrice>
             </SummaryItem>
             <StripeCheckout
-              name="Lama Shop"
-              image="https://avatars.githubusercontent.com/u/1486366?v=4"
+              name="E-SHOP"
+              image="https://www.vapulus.com/en/wp-content/uploads/2021/02/Faber-payment-gateway.jpg"
               billingAddress
               shippingAddress
               description={`Your total is $${cart.total}`}
@@ -295,7 +303,6 @@ const Cart = () => {
           </Summary>
         </Bottom>
       </Wrapper>
-      <Footer />
     </Container>
   );
 };

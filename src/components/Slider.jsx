@@ -54,30 +54,40 @@ const ImgContainer = styled.div`
 
 const Image = styled.img`
   height: 100%;
-  width:80%;
+  width:100%;
 `;
 
 const InfoContainer = styled.div`
   flex: 1;
   padding: 50px;
+  position:absolute;
+  margin-Left:20px;
 `;
 
 const Title = styled.h1`
   font-size: 70px;
+  color: #f25b6a;
 `;
 
 const Desc = styled.p`
   margin: 50px 0px;
-  font-size: 20px;
+  font-size: 30px;
   font-weight: 500;
   letter-spacing: 3px;
 `;
 
+const Tag=styled.p`
+margin: 50px 0px;
+font-size: 20px;
+font-weight: 500;
+letter-spacing: 3px;
+`
 const Button = styled.button`
   padding: 10px;
   font-size: 20px;
-  background-color: transparent;
+  background-color: #f25b6a;
   cursor: pointer;
+  border:none;
 `;
 
 const Slider = () => {
@@ -98,14 +108,16 @@ const Slider = () => {
       <Wrapper slideIndex={slideIndex}>
         {sliderItems.map((item) => (
           <Slide bg={item.bg} key={item.id}>
-            <ImgContainer>
-              <Image src={item.img} />
-            </ImgContainer>
+            
             <InfoContainer>
               <Title>{item.title}</Title>
               <Desc>{item.desc}</Desc>
+              <Tag>{item.tag}</Tag>
               <Button>SHOW NOW</Button>
             </InfoContainer>
+            <ImgContainer>
+              <Image src={item.img} />
+            </ImgContainer>
           </Slide>
         ))}
       </Wrapper>
