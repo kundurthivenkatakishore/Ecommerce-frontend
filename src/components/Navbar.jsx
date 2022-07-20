@@ -76,11 +76,26 @@ const MenuItem = styled.div`
   align-items:center;
   text-align:center;
   cursor: pointer;
-  margin-left: 25px;
+  margin-left: 15px;
   ${mobile({ fontSize: "12px", marginLeft: "10px" })}
 `;
 
+const Button=styled.div`
+  padding:5px;
+  margin:5px;
+  background-color:lightblue;
+  color:black
+`
+
 const Navbar = () => {
+  const [isHovering, setIsHovering] = useState(false);
+  const handleMouseOver = () => {
+    setIsHovering(true);
+  };
+
+  const handleMouseOut = () => {
+    setIsHovering(false);
+  };
   const quantity=useSelector(state=>state.cart.quantity)
   const user = useSelector((state) => state.user.currentUser);
   const dispatch = useDispatch();
@@ -99,10 +114,12 @@ const Navbar = () => {
           </SearchContainer>
         </Left>
         <Center>
-          <Logo ><Link to="/">E-SHOP</Link></Logo>
+          <Logo ><Link to="/" style={{ color: "inherit", textDecoration: "none" }}>
+          <span className="logo">E-SHOP</span>
+        </Link></Logo>
         </Center>
         <Right>
-        {!user && (
+        {/* {!user && (
             <>
                 <MenuItem><Link to="/register">REGISTER</Link></MenuItem>
                 <MenuItem><Link to="/login">SIGN IN</Link></MenuItem>
@@ -135,7 +152,20 @@ const Navbar = () => {
               </div>
               </MenuItem>
             </>
-          )}
+          )} */}
+          {user ? <Button onClick={handleLogout} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} style={{ cursor:"pointer" }}>{user.username} {isHovering && <p>Logout</p>}</Button> : (
+          <div>
+            <MenuItem>
+            <Button><Link to="/register" style={{ color: "inherit", textDecoration: "none" }}>
+          <span>Register</span>
+        </Link></Button>
+            <Button><Link to="/login" style={{ color: "inherit", textDecoration: "none" }}>
+          <span>Signin</span>
+        </Link></Button>
+        </MenuItem>
+          </div>
+          
+        )}
           <Link to="/cart">
           <MenuItem>
             <Badge badgeContent={quantity} color="primary">

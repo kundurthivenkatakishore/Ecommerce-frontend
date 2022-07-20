@@ -151,14 +151,14 @@ const Product = () => {
 
   const handleClick=()=>{
     dispatch(addProduct({...product,quantity,color,size}));
+    if (currentUser) {
+      navigate('/cart');
+      return null;
+    }else{
+      navigate('/login')
+    }
   }
 
-  if (currentUser) {
-    navigate('/cart');
-    return null;
-  }else{
-    navigate('/login')
-  }
   return (
     <Container>
       <Navbar />

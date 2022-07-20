@@ -13,9 +13,6 @@ import { deleteProduct, emptyCart } from '../redux/cartRedux';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { Link } from "react-router-dom";
 
-
-const KEY = process.env.REACT_STRIPE;
-
 const Container = styled.div``;
 
 const Wrapper = styled.div`
@@ -170,9 +167,9 @@ const Cart = () => {
   const navigate = useNavigate();
   const dispatch=useDispatch();
 
-  const onToken = (token) => {
-    setStripeToken(token);
-  };
+  const onToken = useCallback((token) => setStripeToken(token), []);
+
+  const appUrl = 'https://ecommerce-backen.herokuapp.com/api';
 
   const handleDelete = useCallback((product) => {
     dispatch(
@@ -187,13 +184,13 @@ const Cart = () => {
   useEffect(() => {
     const makeRequest = async () => {
       try {
-        const res = await userRequest.post(`/checkout/payment`, {
+        const res = await userRequest.post(`${appUrl}/payment`, {
           tokenId: stripeToken.id,
           amount: 500,
         });
         console.log(res);
         dispatch(emptyCart());
-        navigate.replace(
+        navigate(
           {
             pathname: '/success',
             query: { paymentData: JSON.stringify(res.data) },
@@ -205,15 +202,17 @@ const Cart = () => {
       }
     };
 
-    if (currentUser) {
-      navigate('/cart');
-      return null;
-    }else{
-      navigate('/login')
-    }
+    // if (currentUser) {
+    //   navigate('/cart');
+    //   return null;
+    // }else{
+    //   navigate('/login')
+    // }
 
     stripeToken && cart.total >= 1 && makeRequest();
   }, [stripeToken, cart]);
+
+
   return (
     <Container>
       <Navbar />
@@ -223,8 +222,8 @@ const Cart = () => {
         <Top>
           <Link to="/"><TopButton>CONTINUE SHOPPING</TopButton></Link>
           <TopTexts>
-            <TopText>Shopping Bag</TopText>
-            <TopText>Your Wishlist</TopText>
+            <TopText>Shopping Bag({cart.products.length})</TopText>
+            <TopText>Your Wishlist(0)</TopText>
           </TopTexts>
           <button
             onClick={() => dispatch(emptyCart())}
@@ -248,7 +247,7 @@ const Cart = () => {
                     </ProductId>
                     <ProductColor color={product.color} />
                     <ProductSize>
-                      <b>Size:</b> {product.size}
+                      <b>Size:</b>  {product.size.toUpperCase()}{' '}
                     </ProductSize>
                   </Details>
                 </ProductDetail>
@@ -296,7 +295,7 @@ const Cart = () => {
               description={`Your total is $${cart.total}`}
               amount={cart.total * 100}
               token={onToken}
-              stripeKey={KEY}
+              stripeKey="pk_test_51L8n14SHuogYXHIU3uWvlDwpEkxj1rXHckGYg59RVBgpm6rgHjIqC3mQQ2NZHrr3h8RyNiQWnrCaj0joL8vlSTWM00GIAv5nzh"
             >
               <Button>CHECKOUT NOW</Button>
             </StripeCheckout>
