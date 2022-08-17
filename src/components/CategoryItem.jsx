@@ -47,7 +47,7 @@ const Button = styled.button`
 const CategoryItem = ({ item }) => {
   return (
     <Container>
-      <Link to={`/products/${item.cat}`}>
+      <Link to={`https://ecommerce-backen.herokuapp.com/api/products/${item.cat}`}>
       <Image src={item.img} />
       <Info>
         <Title>{item.title}</Title>
