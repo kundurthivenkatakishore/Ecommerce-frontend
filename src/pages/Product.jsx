@@ -134,7 +134,7 @@ const Product = () => {
   useEffect(() => {
     const getProduct = async () => {
       try {
-        const res = await publicRequest.get("/products/find/" + id);
+        const res = await publicRequest.get("https://ecommerce-backen.herokuapp.com/api/products/find/" + id);
         setProduct(res.data);
       } catch {}
     };
